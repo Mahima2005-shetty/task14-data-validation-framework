@@ -1,0 +1,21 @@
+Order ID,Validation Status,Error Count,Validation Errors
+ORD10001,VALID,0,
+ORD10002,VALID,0,
+ORD10003,INVALID,1,email: invalid email address
+ORD10004,INVALID,1,phone: invalid phone number
+ORD10005,INVALID,1,customer_name: required field is missing
+ORD10006,INVALID,1,price: must be greater than zero
+ORD10007,INVALID,1,quantity: must be a positive integer
+ORD10008,INVALID,1,status: invalid order status
+ORD10009,INVALID,1,order_id: duplicate order ID
+ORD10009,INVALID,1,order_id: duplicate order ID
+ORD10010,INVALID,1,email: invalid email address
+ORD10011,INVALID,1,quantity: must be a positive integer
+ORD10012,INVALID,1,pincode: must contain exactly 6 digits
+ORD10013,INVALID,2,email: invalid email address | order_date: future date is not allowed
+ORD10014,INVALID,2,product: required field is missing | order_date: future date is not allowed
+ORD10015,INVALID,2,order_date: future date is not allowed | price: must be greater than zero
+ORD10016,INVALID,2,order_date: future date is not allowed | status: invalid order status
+ORD10017,INVALID,2,email: invalid email address | order_date: future date is not allowed
+ORD10018,INVALID,1,order_date: future date is not allowed
+ORD10019,INVALID,1,order_date: future date is not allowed

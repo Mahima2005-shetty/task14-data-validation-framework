@@ -1,0 +1,7 @@
+{
+    "project": "Business Data Validation Framework",
+    "total_records": 20,
+    "valid_records": 2,
+    "invalid_records": 18,
+    "validation_rate": 10.0
+}

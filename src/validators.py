@@ -1,11 +1,9 @@
 """
-Reusable validation functions for the Task 14
-Business Data Validation Framework.
+Reusable validation functions for the
+Task 14 - Business Data Validation Framework.
 
 This module contains independent validation rules.
-Each function returns:
-    True  -> validation passed
-    False -> validation failed
+It does NOT import the validation engine.
 """
 
 import re
@@ -24,7 +22,7 @@ CUSTOMER_ID_PATTERN = r"^CUS\d{4}$"
 
 ORDER_ID_PATTERN = r"^ORD\d{5}$"
 
-PINCODE_PATTERN = r"^\d{6}$"
+PINCODE_PATTERN = r"^[1-9]\d{5}$"
 
 
 # ============================================================
@@ -33,8 +31,13 @@ PINCODE_PATTERN = r"^\d{6}$"
 
 def validate_required(value):
     """
-    Check whether a value is present and not empty.
+    Check whether a field is present and not empty.
+
+    Returns:
+        True  - field contains a value
+        False - field is missing or empty
     """
+
     if value is None:
         return False
 
@@ -49,10 +52,16 @@ def validate_email(email):
     """
     Validate an email address using regular expressions.
     """
+
     if not validate_required(email):
         return False
 
-    return bool(re.fullmatch(EMAIL_PATTERN, str(email).strip()))
+    return bool(
+        re.fullmatch(
+            EMAIL_PATTERN,
+            str(email).strip()
+        )
+    )
 
 
 # ============================================================
@@ -63,10 +72,16 @@ def validate_phone(phone):
     """
     Validate a 10-digit Indian mobile number.
     """
+
     if not validate_required(phone):
         return False
 
-    return bool(re.fullmatch(PHONE_PATTERN, str(phone).strip()))
+    return bool(
+        re.fullmatch(
+            PHONE_PATTERN,
+            str(phone).strip()
+        )
+    )
 
 
 # ============================================================
@@ -75,19 +90,23 @@ def validate_phone(phone):
 
 def validate_customer_id(customer_id):
     """
-    Validate customer ID format.
+    Validate customer ID.
 
     Expected format:
-    CUS followed by exactly 4 digits.
+        CUS followed by exactly 4 digits
 
     Example:
-    CUS1001
+        CUS1001
     """
+
     if not validate_required(customer_id):
         return False
 
     return bool(
-        re.fullmatch(CUSTOMER_ID_PATTERN, str(customer_id).strip())
+        re.fullmatch(
+            CUSTOMER_ID_PATTERN,
+            str(customer_id).strip()
+        )
     )
 
 
@@ -97,19 +116,23 @@ def validate_customer_id(customer_id):
 
 def validate_order_id(order_id):
     """
-    Validate order ID format.
+    Validate order ID.
 
     Expected format:
-    ORD followed by exactly 5 digits.
+        ORD followed by exactly 5 digits
 
     Example:
-    ORD10001
+        ORD10001
     """
+
     if not validate_required(order_id):
         return False
 
     return bool(
-        re.fullmatch(ORDER_ID_PATTERN, str(order_id).strip())
+        re.fullmatch(
+            ORDER_ID_PATTERN,
+            str(order_id).strip()
+        )
     )
 
 
@@ -121,12 +144,18 @@ def validate_date(date_value):
     """
     Validate date using YYYY-MM-DD format.
     """
+
     if not validate_required(date_value):
         return False
 
     try:
-        datetime.strptime(str(date_value).strip(), "%Y-%m-%d")
+        datetime.strptime(
+            str(date_value).strip(),
+            "%Y-%m-%d"
+        )
+
         return True
+
     except ValueError:
         return False
 
@@ -137,8 +166,9 @@ def validate_date(date_value):
 
 def validate_not_future_date(date_value):
     """
-    Check that the date is not later than today's date.
+    Check that a valid date is not later than today.
     """
+
     if not validate_date(date_value):
         return False
 
@@ -160,15 +190,28 @@ def validate_not_future_date(date_value):
 
 def validate_product(product):
     """
-    Validate that the product name is present
-    and contains meaningful text.
+    Validate product name.
+
+    Allows:
+        Letters
+        Numbers
+        Spaces
+        Hyphens
+
+    Maximum length: 50 characters.
     """
+
     if not validate_required(product):
         return False
 
     product_text = str(product).strip()
 
-    return bool(re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9\s\-]{1,49}", product_text))
+    return bool(
+        re.fullmatch(
+            r"[A-Za-z0-9][A-Za-z0-9\s\-]{1,49}",
+            product_text
+        )
+    )
 
 
 # ============================================================
@@ -179,9 +222,12 @@ def validate_price(price):
     """
     Validate that price is numeric and greater than zero.
     """
+
     try:
         value = float(price)
+
         return value > 0
+
     except (ValueError, TypeError):
         return False
 
@@ -194,9 +240,12 @@ def validate_quantity(quantity):
     """
     Validate that quantity is a positive integer.
     """
+
     try:
         value = int(quantity)
+
         return value > 0
+
     except (ValueError, TypeError):
         return False
 
@@ -208,12 +257,18 @@ def validate_quantity(quantity):
 def validate_pincode(pincode):
     """
     Validate a six-digit Indian PIN code.
+
+    The first digit cannot be zero.
     """
+
     if not validate_required(pincode):
         return False
 
     return bool(
-        re.fullmatch(PINCODE_PATTERN, str(pincode).strip())
+        re.fullmatch(
+            PINCODE_PATTERN,
+            str(pincode).strip()
+        )
     )
 
 
@@ -231,8 +286,10 @@ VALID_STATUSES = {
 
 def validate_status(status):
     """
-    Validate order status against the allowed values.
+    Validate order status against
+    the allowed status values.
     """
+
     if not validate_required(status):
         return False
 
